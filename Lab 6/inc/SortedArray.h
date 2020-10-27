@@ -20,8 +20,22 @@ struct SortedArray {
     }
 
     void insert(long val) {
-        arr.append(val);
-        insertionSort(arr);
+        long start = 0;
+        long end = arr.count - 1;
+        long mid = start + ((end - start)/2);
+
+        while (start <= end) {
+            if (arr[mid] == val) break;
+            else if (arr[mid] > val) {
+                end = mid - 1;
+                mid = start + ((end - start)/2);
+            }
+            else if (arr[mid] < val) {
+                start = mid + 1;
+                mid = start + ((end - start)/2);
+            }
+        }
+        arr.insert(mid, val);
     }
 
     void insertionSort(ResizableArray& arr){

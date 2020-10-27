@@ -52,10 +52,12 @@ int main(int argc, char* argv[]){
     timestamp start = current_time();
 	for (long i = 0; i < N; i++){
 		long r = sample(dist, device);
+        // cout << r << " ";
 		sArr.insert(r);
 	}
     timestamp end = current_time();
 
+    // cout << endl << sArr << endl;
     cout << time_diff(start, end) << " ms" << endl;
 
     // Set N, the size of the array we test with
