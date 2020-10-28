@@ -30,7 +30,6 @@ struct ResizableArray {
 	// the array needs to be copied. In this case it performs
 	// a deep copy, which is what we need
 	ResizableArray(const ResizableArray& other){
-        std::cout << "HELLO" << std::endl;
 		capacity = other.capacity;
 		count = other.count;
 		data = new long[other.capacity];

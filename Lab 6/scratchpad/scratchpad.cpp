@@ -42,23 +42,25 @@ void insertionSort(ResizableArray& arr){
 
 int main(int argc, char* argv[]){
 
-    long N = 40000;
+    long N = 1000000;
 
     SortedArray sArr;
 
     randomizer device = new_randomizer();
-	uniform_distribution dist = new_distribution(1, 10);
+	uniform_distribution dist = new_distribution(1, N);
 
     timestamp start = current_time();
 	for (long i = 0; i < N; i++){
-		long r = sample(dist, device);
-        // cout << r << " ";
-		sArr.insert(r);
+		sArr.arr.append(i);
 	}
+    timestamp mid = current_time();
+    long r = sample(dist, device);
+    sArr.insert(r);
     timestamp end = current_time();
 
     // cout << endl << sArr << endl;
-    cout << time_diff(start, end) << " ms" << endl;
+    cout << "filled: " << time_diff(start, mid) << " ms" << endl;
+    cout << "inserted " << r << ": " << time_diff(mid, end) << " ms" << endl;
 
     // Set N, the size of the array we test with
 

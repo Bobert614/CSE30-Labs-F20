@@ -6,11 +6,9 @@
 struct SortedArray {
     ResizableArray arr;
 
-    SortedArray() {
-    }
+    SortedArray() {}
 
     SortedArray(const SortedArray& other) {
-        std::cout << "HELLO" << std::endl;
 		arr.count = other.arr.count;
 		arr.data = new long[other.arr.capacity];
 
@@ -19,6 +17,14 @@ struct SortedArray {
 		}
     }
 
+    // For each insertion, performs a binary search to find an element already in the array
+    // that is the same as the value. If the search fails, 'mid' will be at the index where
+    // the value belongs, then the value is simply inserted using the method from ResizableArray,
+    // whose worst case is an insertion near the beginning of the array.
+    // Worst case for this function is when we are inserting a value that belongs at the beginning
+    // of the array that does not already exist in the array. O(n+log(n))
+    // Because the slow part of this function is the actual insertion and not the search, the Best Case
+    // is inserting to the end. O(1)
     void insert(long val) {
         long start = 0;
         long end = arr.count - 1;
@@ -38,20 +44,7 @@ struct SortedArray {
         arr.insert(mid, val);
     }
 
-    void insertionSort(ResizableArray& arr){
-        for (long i = 1; i < arr.count; i++){
-            long j = i;
-            while (j > 0 && arr[j-1] > arr[j]){
-                long temp = arr[j];
-                arr[j] = arr[j-1];
-                arr[j-1] = temp;
-                j = j - 1;
-            }
-        }
-    }
-
-    ~SortedArray() {
-    }
+    ~SortedArray() {}
 };
 
 std::ostream& operator<<(std::ostream& os, const SortedArray& sArr) {
