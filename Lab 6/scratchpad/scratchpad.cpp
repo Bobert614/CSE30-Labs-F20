@@ -42,7 +42,7 @@ void insertionSort(ResizableArray& arr){
 
 int main(int argc, char* argv[]){
 
-    long N = 1000000;
+    long N = 100000;
 
     SortedArray sArr;
 
@@ -50,8 +50,8 @@ int main(int argc, char* argv[]){
 	uniform_distribution dist = new_distribution(1, N);
 
     timestamp start = current_time();
-	for (long i = 0; i < N; i++){
-		sArr.arr.append(i);
+	for (long i = N; i >= 0; i--){
+		sArr.insert(i);
 	}
     timestamp mid = current_time();
     long r = sample(dist, device);

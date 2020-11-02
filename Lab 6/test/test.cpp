@@ -2,6 +2,7 @@
 #include <SortedArray.h>
 #include <Array.h>
 #include <TimeSupport.h>
+#include <RandomSupport.h>
 
 using namespace igloo;
 
@@ -91,10 +92,28 @@ Context(SortedInsertionTests) {
 
 		Assert::That(actual.arr == expected);
 	}
+
+	Spec(LotsOfInserts) {
+		long N = 100000;
+
+		ResizableArray expected;
+
+		SortedArray actual;
+
+		// resizable array inserted in order from 0 to N
+		for (long i = 0; i < N; i++)
+			expected.append(i);
+
+		// sorted array inserted from N to 0
+		for (long i = N-1; i >= 0; i--)
+			actual.insert(i);
+
+		Assert::That(actual.arr == expected);
+	}
 };
 
 Context(ComplexityProofs) {
-	long N = 100000000;
+	long N = 10000000;
 	Spec(Best) {
 		SortedArray sArr;
 
@@ -105,7 +124,7 @@ Context(ComplexityProofs) {
 		sArr.insert(N+1);
 		timestamp end = current_time();
 
-		std::cout << std::endl << "Best case (insert at end), " << N << " elements: " << time_diff(start, end) << "ms" << std::endl;
+		std::cout << std::endl << "Best case - optimize insert (N+1), N=" << N << " elements: " << time_diff(start, end) << "ms" << std::endl;
 	}
 	Spec(Worst) {
 		SortedArray sArr;
@@ -117,7 +136,7 @@ Context(ComplexityProofs) {
 		sArr.insert(-1);
 		timestamp end = current_time();
 
-		std::cout << std::endl << "Worst case (insert at beginning), " << N << " elements: " << time_diff(start, end) << "ms" << std::endl;
+		std::cout << std::endl << "Worst case - beginning of list (-1), N=" << N << " elements: " << time_diff(start, end) << "ms" << std::endl;
 	}
 	Spec(FakeBest) {
 		SortedArray sArr;
@@ -129,7 +148,7 @@ Context(ComplexityProofs) {
 		sArr.insert((N-1)/2);
 		timestamp end = current_time();
 
-		std::cout << std::endl << "Fake Best case (insert at middle), " << N << " elements: " << time_diff(start, end) << "ms" << std::endl;
+		std::cout << std::endl << "Fake Best case - optimize search ((N+1)/2)), N=" << N << " elements: " << time_diff(start, end) << "ms" << std::endl;
 	}
 };
 

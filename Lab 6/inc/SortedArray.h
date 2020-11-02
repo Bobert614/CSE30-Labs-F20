@@ -22,9 +22,9 @@ struct SortedArray {
     // the value belongs, then the value is simply inserted using the method from ResizableArray,
     // whose worst case is an insertion near the beginning of the array.
     // Worst case for this function is when we are inserting a value that belongs at the beginning
-    // of the array that does not already exist in the array. O(n+log(n))
+    // of the array that does not already exist in the array.
     // Because the slow part of this function is the actual insertion and not the search, the Best Case
-    // is inserting to the end. O(1)
+    // is inserting to the end.
     void insert(long val) {
         long start = 0;
         long end = arr.count - 1;
