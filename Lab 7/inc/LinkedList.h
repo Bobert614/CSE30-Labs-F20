@@ -5,15 +5,15 @@
 #include <ostream>
 
 struct Node{
-	long data;
+	std::string data;
 	Node* next;
 
 	Node (){
-		data = 0;
+		data = "";
 		next = NULL;
 	}
 
-	Node (long n){
+	Node (std::string n){
 		data = n;
 		next = NULL;
 	}
@@ -43,7 +43,7 @@ struct LinkedList{
 		last = other.last;
 	}
 
-	void append (long n){
+	void append (std::string n){
 		if (head == NULL){
 			head = new Node(n);
 			last = head;
@@ -55,13 +55,13 @@ struct LinkedList{
 		}
 	}
 
-	void prepend(long n){
+	void prepend(std::string n){
 		Node* temp = new Node(n);
 		temp->next = head;
 		head = temp;
 	}
 
-	long get(long index){
+	std::string get(long index){
 		Node* temp = head;
 		for (long i = 0; i < index; i++){
 			if (temp == NULL){
@@ -70,6 +70,15 @@ struct LinkedList{
 			temp = temp->next;
 		}
 		return temp->data;
+	}
+
+	bool search(std::string str) {
+		Node* temp = head;
+		while (temp != NULL) {
+			if (temp->data == str) return true;
+			temp = temp->next;
+		}
+		return false;
 	}
 
 	bool operator==(const LinkedList& other) const {
