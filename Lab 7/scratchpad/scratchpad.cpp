@@ -3,7 +3,6 @@
 #include <Array.h>
 #include <LinkedList.h>
 #include <TimeSupport.h>
-#include <SortedArray.h>
 #include <HashTable.h>
 
 #include <fstream>
@@ -15,6 +14,7 @@ int main(int argc, char* argv[]){
     fileStream.open("words2.txt");
 
     HashTable test;
+    ResizableArray revWords;
 
     while (!fileStream.eof()) {
         string temp;
@@ -33,10 +33,15 @@ int main(int argc, char* argv[]){
         string str;
         fileStream >> str;
         string rev = string(str.rbegin(),str.rend());
-        if (test.search(rev)) num++;
+        if (test.search(rev)) {
+            revWords.append(str);
+            num++;
+        }
     }
 
     timestamp end = current_time();
+
+    cout << "The following words create words when reversed:" << endl << revWords << endl;
 
     cout << num << " reverse words found in " << time_diff(start, end) << " ms" << endl;
 }

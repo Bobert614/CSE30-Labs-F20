@@ -6,7 +6,7 @@
 
 struct ResizableArray {
     // This is the poiner to the start of our array
-    long* data;
+    std::string* data;
     
     // Keep track of how much memory we have allocated
     long capacity;
@@ -17,7 +17,7 @@ struct ResizableArray {
     // A default constructor
     ResizableArray(){
         // Start off by allocating memory for 1 int
-        data = new long[1];
+        data = new std::string[1];
         
         // This means we have allocated for 1
         capacity = 1;
@@ -32,7 +32,7 @@ struct ResizableArray {
 	ResizableArray(const ResizableArray& other){
 		capacity = other.capacity;
 		count = other.count;
-		data = new long[other.capacity];
+		data = new std::string[other.capacity];
 
 		for (long i = 0; i < other.count; i++){
 			data[i] = other.data[i];
@@ -43,14 +43,14 @@ struct ResizableArray {
         std::cout << "HI" << std::endl;
 		capacity = other.capacity;
 		count = other.count;
-		data = new long[other.capacity];
+		data = new std::string[other.capacity];
 
 		for (long i = 0; i < other.count; i++){
 			data[i] = other.data[i];
 		}
     }
 
-    long& operator[](long index) const {
+    std::string& operator[](long index) const {
         return data[index];
     }
 
@@ -87,16 +87,16 @@ struct ResizableArray {
     }
     
 	// Get the value at a specified position
-    int get(long index){
+    std::string get(long index){
         return data[index];
     }
     
 	// Set the value at a specified position with a given integer
-    void set(long index, long value){
+    void set(long index, std::string value){
         data[index] = value;
     }
 
-	void insert(long index, long value){
+	void insert(long index, std::string value){
         if (index < capacity){
             for(long i = count; i > index; i--){
                 data[i] = data[i-1];
@@ -108,7 +108,7 @@ struct ResizableArray {
                 
                 capacity = capacity * 2;
                 
-                long* newArr = new long[capacity];
+                std::string* newArr = new std::string[capacity];
             
                 for (long i = 0; i < oldcapacity; i++) {
                     newArr[i] = data[i];
@@ -125,7 +125,7 @@ struct ResizableArray {
                 capacity *=2;
             }
             if (capacity > oldcapacity){
-                long* newArr = new long[capacity];
+                std::string* newArr = new std::string[capacity];
                 
                 for (long i = 0; i < oldcapacity; i++) {
                     newArr[i] = data[i];
@@ -137,7 +137,7 @@ struct ResizableArray {
             }
             
             for (long i = count; i < index; i++){
-                data[i] = 0;
+                data[i] = "";
             }
             
             data[index] = value;
@@ -147,7 +147,7 @@ struct ResizableArray {
     
     
     // Store a new value in the array
-    void append(long value){
+    void append(std::string value){
         // The very first time this is called
         // we know we have enough storage allocated
         // because we allocated space for 1 int
@@ -168,7 +168,7 @@ struct ResizableArray {
             
             // Allocate another chunk of memory
             // twice as big as the first
-            long* newArr = new long[capacity];
+            std::string* newArr = new std::string[capacity];
             
             // Copy all elements from the old location
             // to the new location
