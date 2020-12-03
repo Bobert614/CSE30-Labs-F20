@@ -5,31 +5,27 @@
 
 struct HashTable {
     LinkedList* table;
+    int size = 0;
 
-    // Strings stored in this hash table are categorized by the
-    // sum of the ASCII values that make up the string
-    HashTable(long size) {
+    HashTable(int num) {
+        size = num;
         table = new LinkedList[size];
     }
 
-    // Returns the sum of the ASCII values that make up the string
-    // Ex: "A" is 65, "APPLE" is 65 + 80 + 80 + 76 + 69 = 370
-    int f(std::string str) {
-        int sum = 0;
-        const char* arr = str.c_str();
-        for (int i = 0; i < str.length(); i++) {
-            sum += (int) arr[i];
+    // Hash function based on character folding
+    long f(std::string str) {
+        int seed = 5051;
+        unsigned long hash = 0;
+        for (int i=0; i < str.length(); i++) {
+            hash = (hash * seed) + str[i];
         }
-        return sum;
+        return hash % size;
     }
 
-    // Group strings with other strings that have the same sum
     void append(std::string str) {   
         table[f(str)].append(str);
     }
 
-    // To find a specific string, only look at the linked list of
-    // strings whose sum is the same
     bool search(std::string str) {
         return table[f(str)].search(str);
     }

@@ -7,75 +7,65 @@
 
 using namespace std;
 
+string reverse(string str) {
+    return string(str.rbegin(),str.rend());
+}
+
 int main(){
     fstream fileStream;
-    string file = "words.txt";
+    string file = "words2.txt";
+
+    // To record which words are reversible
+    ResizableArray revWords;
+    // Store the words in a way that's good for iterating but bad for searching
+    ResizableArray list;
 
     timestamp start1 = current_time();
 
-    // First read: cast each word to an array of characters, then determine
-    // the sum of the ASCII values of those characters, and keep track of the
-    // highest sum, this will determine the size of the array for the hash table
-    int maxSum = 0;
-    fileStream.open(file);
-    while (!fileStream.eof()) {
-        string str;
-        fileStream >> str;
-        int sum = 0;
-        const char* arr = str.c_str();
-        for (int i = 0; i < str.length(); i++) {
-            sum += (int) arr[i];
-        }
-        if (sum > maxSum) maxSum = sum;
+    // Read from the file once and store the words in the resizable array
+    fileStream.open(file, ios::in);
+    if (!fileStream.is_open()) {
+        cout << "Couldn't open file" << endl;
+        return 1;
+    }
+    string temp;
+    while (getline(fileStream, temp)) {
+        list.append(temp);
     }
     fileStream.close();
 
     timestamp end1 = current_time();
 
-    cout << "First read complete in " << time_diff(start1, end1) << " ms" << endl;
-
-    // Create a hash table whose size is defined by the operation above
-    HashTable words (maxSum);
-    // To record which words are reversible
-    ResizableArray revWords;
+    // cout << "Read \"" << file << "\" in " << time_diff(start1, end1) << " ms" << endl;
 
     timestamp start2 = current_time();
 
-    // Second read: populate the hash table with the words from the file
-    fileStream.open(file);
-    while (!fileStream.eof()) {
-        string temp;
-        fileStream >> temp;
-        words.append(temp);
+    // Create a hash table whose size is defined by the number of words to be stored
+    HashTable words (list.count/2);
+
+    // Populate the hash table
+    for (int i=0; i < list.count; i++) {
+        words.append(list[i]);
     }
-    fileStream.close();
 
     timestamp end2 = current_time();
 
-    cout << "Second read complete in " << time_diff(start2, end2) << " ms" << endl;
+    // cout << "Populated hash table in " << time_diff(start2, end2) << " ms" << endl;
 
     timestamp start3 = current_time();
 
-    // Third read: for each word, reverse it, then search for that reversed
-    // word in the hash table
-    fileStream.open(file);
-    while (!fileStream.eof()) {
-        string str;
-        fileStream >> str;
-        string rev = string(str.rbegin(),str.rend());
-        if (words.search(rev)) {
-            revWords.append(str);
-        }
+    // For each word, reverse it, then search for that reversed
+    // word in the hash table, keeping track of ones that are found
+    for (int i=0; i < list.count; i++) {
+        if (words.search(reverse(list[i])))
+            revWords.append(list[i]);
     }
-    fileStream.close();
 
     timestamp end3 = current_time();
 
-    cout << "Third read complete in " << time_diff(start3, end3) << " ms" << endl;
+    // cout << "The following words create words when reversed:" << endl << revWords << endl;
 
-    cout << "The following words create words when reversed:" << endl << revWords << endl;
-
-    cout << revWords.count << " reversible words found in " << time_diff(start1, end3) << " ms" << endl;
+    cout << "Found " << revWords.count << " reversible words in " << time_diff(start3, end3) << " ms" << endl;
     
     return 0;
 }
