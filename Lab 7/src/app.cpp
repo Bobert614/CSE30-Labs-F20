@@ -13,7 +13,7 @@ string reverse(string str) {
 
 int main(){
     fstream fileStream;
-    string file = "words2.txt";
+    string file = "words.txt";
 
     // To record which words are reversible
     ResizableArray revWords;

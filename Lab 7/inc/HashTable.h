@@ -12,11 +12,11 @@ struct HashTable {
         table = new LinkedList[size];
     }
 
-    // Hash function based on character folding
     long f(std::string str) {
         int seed = 5051;
         unsigned long hash = 0;
-        for (int i=0; i < str.length(); i++) {
+        while (str.length() < 4) str += "_";
+        for (int i=0; i < 4; i++) {
             hash = (hash * seed) + str[i];
         }
         return hash % size;
