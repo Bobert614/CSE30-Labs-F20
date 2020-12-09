@@ -15,6 +15,9 @@ int main(){
     fstream fileStream;
     string file = "words.txt";
 
+    cout << "Enter file name (words.txt, words2.txt, or words3.txt): ";
+    cin >> file;
+
     // To record which words are reversible
     ResizableArray revWords;
     // Store the words in a way that's good for iterating but bad for searching
